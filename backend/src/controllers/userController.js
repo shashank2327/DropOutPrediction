@@ -67,11 +67,11 @@ const updateUser = async (req, res) => {
         const { firstName, lastName, profile, department, age, phone } = req.body
         const user = req.user._id
         const updateData = {}
-        if (firstName !== undefined) updateData.firstName = firstName
-        if (lastName !== undefined) updateData.lastName = lastName
-        if (age !== undefined) updateData.age = age
-        if (phone !== undefined) updateData.phone = phone
-        if (department !== undefined) updateData.department = department
+        if (firstName) updateData.firstName = firstName
+        if (lastName) updateData.lastName = lastName
+        if (age) updateData.age = age
+        if (phone) updateData.phone = phone
+        if (department) updateData.department = department
         if (profile) {
             if (profile.designation !== undefined) updateData['profile.designation'] = profile.designation;
             if (profile.qualification !== undefined) updateData['profile.qualification'] = profile.qualification;
@@ -82,7 +82,7 @@ const updateUser = async (req, res) => {
         const updatedUser = await User.findByIdAndUpdate(
             user,
             { $set: updateData },
-            { new: true }
+            { new: true, runValidators: true }
         ).select("-password")
 
         if (!updatedUser) {
