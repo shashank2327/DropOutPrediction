@@ -1,5 +1,5 @@
 import express from 'express'
-import { assignStudentsToUser, createUser, deleteUser, getUserByuserId, getUsersBydept, getUsersByrole, loginUser, removeStudentsFromUser, updateUser } from '../controllers/userController.js'
+import { createUser, deleteUser, getMyAssignedStudents, getUserByuserId, getUsersBydept, getUsersByrole, loginUser, updateUser } from '../controllers/userController.js'
 import { AuthUser } from '../middlewares/auth.js'
 
 const userRouter = express.Router()
@@ -14,7 +14,6 @@ userRouter.get('/by-role', AuthUser, getUsersByrole)
 userRouter.get('/by-dept', AuthUser, getUsersBydept)
 userRouter.get('/:id', AuthUser, getUserByuserId)
 
-userRouter.put('/assign-students', AuthUser, assignStudentsToUser)
-userRouter.put('/remove-students', AuthUser, removeStudentsFromUser)
+userRouter.get('/assigned-students', AuthUser, getMyAssignedStudents)
 
 export default userRouter

@@ -1,4 +1,8 @@
 import User from "../models/user.model.js"
+import Student from "../models/student.model.js"
+import Attendance from "../models/attendance.model.js"
+import AcademicRecord from "../models/academicRecord.model.js"
+import FeeRecord from "../models/feeRecord.model.js"
 import bcrypt from 'bcryptjs'
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js"
 
@@ -9,8 +13,7 @@ import { generateAccessToken, generateRefreshToken } from "../utils/token.js"
 // getUserByuserId
 // getUsersBydept
 // getUsersByrole
-// assignStudentsToUser
-// removeStudentsFromUser
+// getmyAssignedStudents
 
 
 const createUser = async (req, res) => {
@@ -138,7 +141,7 @@ const getUsersBydept = async (req, res) => {
             return res.status(404).json({ success: false, message: "No users found for this department" })
         }
 
-        res.status(200).json({ success: true, user: users })
+        res.status(200).json({ success: true, users: users })
 
     } catch (error) {
         console.log(error)
@@ -157,7 +160,7 @@ const getUsersByrole = async (req, res) => {
             return res.status(404).json({ success: false, message: "No users found for this role" })
         }
 
-        res.status(200).json({ success: true, user: users })
+        res.status(200).json({ success: true, users: users })
 
     } catch (error) {
         console.log(error)
@@ -165,12 +168,53 @@ const getUsersByrole = async (req, res) => {
     }
 }
 
-const assignStudentsToUser = async (req, res) => {
+const getMyAssignedStudents = async (req, res) => {
+    try {
+        const id = req.user._id
+        const user = await User.findById(id)
+        if(!user) {
+            return res.status(404).json({success: false, message: "Mentor not found"})
+        }
+        const studentIds = user.assignedStudents
+        if(!studentIds || studentIds.length === 0) {
+            return res.status(200).json({success: true, student: []})
+        }
+        const students = await Student.find({
+            _id: {$in: studentIds}
+        }).select("-password").populate('course', 'name').populate('department', 'name').lean()
+        
+        const allattendance = await Attendance.find({student: {$in: studentIds}}).populate('subject', 'name code')
 
-}
+        const allacademics = await AcademicRecord.find({student: {$in: studentIds}}).populate('subject', 'name')
 
-const removeStudentsFromUser = async (req, res) => {
+        const allfees = await FeeRecord.find({student: {$in: studentIds}})
+        
+        const studentDetails = students.map(student =>  {
+            const studentIdString = student._id.toString()
+            const attendance = allattendance.filter(record => record.student.toString() === studentIdString)
+            const academics = allacademics.filter(record => record.student.toString() === studentIdString)
+            const fees = allfees.filter(record=> record.student.toString() === studentIdString)
 
+            return {
+                ...student,
+                records: {
+                    attendance: attendance,
+                    academics: academics,
+                    fees: fees
+                }
+            }
+        })
+
+        res.status(200).json({success: true, students: studentDetails})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success: false, message: error.message})
+    }
+
+    const getmyAlerts = async (req, res) => {
+
+    }
 }
 
 export {
@@ -181,7 +225,6 @@ export {
     getUserByuserId,
     getUsersByrole,
     getUsersBydept,
-    assignStudentsToUser,
-    removeStudentsFromUser,
-    
+    getMyAssignedStudents,
+    getmyAlerts
 }
