@@ -4,7 +4,7 @@ import {
     getFeeRecords,
     updateFeeRecord,
     deleteFeeRecord
-} from '../controllers/feeRecord.controller.js';
+} from '../controllers/feeController.js';
 import { AuthUser } from '../middlewares/auth.js';
 
 const feeRecordRouter = express.Router();

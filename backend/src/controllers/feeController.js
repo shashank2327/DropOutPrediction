@@ -1,7 +1,7 @@
 import FeeRecord from '../models/feeRecord.model.js';
 import Student from '../models/student.model.js';
 
-export const addFeeRecord = async (req, res) => {
+const addFeeRecord = async (req, res) => {
     try {
         const { student, amount, semester, academicYear, paymentDate, transactionId } = req.body
         if (!student || !amount || !semester || !academicYear || !transactionId) {
@@ -27,7 +27,7 @@ export const addFeeRecord = async (req, res) => {
     }
 };
 
-export const getFeeRecords = async (req, res) => {
+const getFeeRecords = async (req, res) => {
     try {
         const { student, semester, academicYear } = req.query;
         
@@ -48,7 +48,7 @@ export const getFeeRecords = async (req, res) => {
     }
 }
 
-export const updateFeeRecord = async (req, res) => {
+const updateFeeRecord = async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -70,7 +70,7 @@ export const updateFeeRecord = async (req, res) => {
     }
 };
 
-export const deleteFeeRecord = async (req, res) => {
+const deleteFeeRecord = async (req, res) => {
     try {
         const { id } = req.params;
 

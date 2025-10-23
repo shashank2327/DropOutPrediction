@@ -1,5 +1,5 @@
 import express from 'express'
-import { AuthUser } from '../middlewares/auth'
+import { AuthUser } from '../middlewares/auth.js'
 import {
     deleteAttendance,
     UpdateAttendance,
