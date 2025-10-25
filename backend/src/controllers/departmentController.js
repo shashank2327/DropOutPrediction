@@ -49,7 +49,7 @@ export const createDept = async(req, res) => {
    }
 }
 
-export const UpdateDept = async(req, res) => {
+export const updateDept = async(req, res) => {
     try {
         const { name, code, hod } = req.body
         const updatedDepartment = await Department.findByIdAndUpdate(
@@ -69,7 +69,7 @@ export const UpdateDept = async(req, res) => {
     }
 }
 
-export const DeleteDept = async (req, res) =>{
+export const deleteDept = async (req, res) =>{
     try {
         const {id} = req.params
         const courseCount = await Course.countDocuments({ department: id });

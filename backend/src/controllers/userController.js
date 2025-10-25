@@ -5,6 +5,7 @@ import AcademicRecord from "../models/academicRecord.model.js"
 import FeeRecord from "../models/feeRecord.model.js"
 import bcrypt from 'bcryptjs'
 import { generateAccessToken, generateRefreshToken } from "../utils/token.js"
+import Alert from "../models/alert.model.js"
 
 // createUser
 // loginUser
@@ -215,7 +216,14 @@ const getMyAssignedStudents = async (req, res) => {
 }
 
 const getmyAlerts = async (req, res) => {
-
+    try {
+        const facultyId = req.user._id
+        const alerts = await Alert.find({assignedTo: facultyId}).populate('student', 'firstName lastName')
+        res.status(200).json({success: true, alerts})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ success: false, message: error.message });
+    }
 }
 
 export {

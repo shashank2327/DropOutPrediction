@@ -1,5 +1,5 @@
 import express from 'express'
-import { createUser, deleteUser, getMyAssignedStudents, getUserByuserId, getUsersBydept, getUsersByrole, loginUser, updateUser } from '../controllers/userController.js'
+import { createUser, deleteUser, getMyAssignedStudents, getUserByuserId, getUsersBydept, getUsersByrole, loginUser, updateUser, getmyAlerts } from '../controllers/userController.js'
 import { AuthUser } from '../middlewares/auth.js'
 
 const userRouter = express.Router()
@@ -15,5 +15,6 @@ userRouter.get('/by-dept', AuthUser, getUsersBydept)
 userRouter.get('/:id', AuthUser, getUserByuserId)
 
 userRouter.get('/assigned-students', AuthUser, getMyAssignedStudents)
+userRouter.get('/alerts', AuthUser, getmyAlerts)
 
 export default userRouter

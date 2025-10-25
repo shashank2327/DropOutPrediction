@@ -4,7 +4,7 @@ import {
     getAllCourses,
     updateCourse,
     deleteCourse
-} from '../controllers/course.controller.js';
+} from '../controllers/courseController.js';
 import { AuthUser } from '../middlewares/auth.js';
 
 const courseRouter = express.Router();

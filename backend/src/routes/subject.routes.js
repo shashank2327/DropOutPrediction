@@ -4,7 +4,7 @@ import {
     getAllSubjects,
     updateSubject,
     deleteSubject
-} from '../controllers/subject.controller.js';
+} from '../controllers/subjectController.js';
 import { AuthUser } from '../middlewares/auth.js';
 
 const subjectRouter = express.Router();
