@@ -9,7 +9,8 @@ import {
     getAllStudents,
     getStudentById,
     updateStudent,
-    deleteStudent
+    deleteStudent,
+    getmyprofile
 } from '../controllers/studentController.js'
 
 import { AuthUser } from '../middlewares/auth.js'
@@ -24,7 +25,7 @@ studentRouter.put('/update-profile', AuthStudent, updateStudentProfile)
 studentRouter.get('/my-attendance', AuthStudent, getMyAttendance)
 studentRouter.get('/my-academics', AuthStudent, getMyAcademicRecords)
 studentRouter.get('/my-fees', AuthStudent, getMyFeeRecords)
-
+studentRouter.get('/profile', AuthStudent, getmyprofile)
 //Admin
 studentRouter.get('/', AuthUser, getAllStudents)
 studentRouter.get('/get-student/:id', AuthUser, getStudentById)

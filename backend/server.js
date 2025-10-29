@@ -26,8 +26,8 @@ app.use(cors({credentials: true}))
 app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))
 
-app.use('/api/users', userRouter)
-app.use('/api/students', studentRouter)
+app.use('/api/user', userRouter)
+app.use('/api/student', studentRouter)
 
 app.use('/api/attendance', attendanceRouter)
 app.use('/api/academics', academicRouter)

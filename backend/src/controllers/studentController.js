@@ -150,6 +150,20 @@ const getMyFeeRecords = async (req, res) => {
     }
 }
 
+const getmyprofile = async (req, res) => {
+    try {
+        const studentId = req.student._id
+        const student = await Student.findById(studentId).select("-password")
+        if(!student) {
+            return res.status(400).json({success: false, message: "No student Found"})
+        }
+        res.status(200).json({success: true, student})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({success: false, message: error.message})
+    }
+}
+
 
 //Admin Permissions (Teachers, mentors)
 const getAllStudents = async (req, res) => {
@@ -249,5 +263,6 @@ export {
     getAllStudents,
     getStudentById,
     updateStudent,
-    deleteStudent
+    deleteStudent,
+    getmyprofile
 }
