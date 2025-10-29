@@ -75,5 +75,9 @@ export const StudentProvider = ({ children }) => {
 }
 
 export const useStudent = () => {
-    return useContext(StudentContext)
+    const context = useContext(StudentContext)
+    if (context === undefined) {
+        throw new Error("useStudent must be used within a StudentProvider")
+    }
+    return context
 }
